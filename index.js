@@ -49,6 +49,18 @@ async function run() {
       const result = await serviceCollection.insertOne(req.body);
       res.json(result);
     });
+    // UPDATE API
+    app.put("/regServices/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const updateStatus = {
+        $set: {
+          status: "Approved"
+        }
+      }
+      const result = await bookingCollection.updateOne(query,updateStatus);
+      res.json(result);
+    });
     // DELETE API
     app.delete("/myBookings/:id", async (req, res) => {
       const id = req.params.id;
