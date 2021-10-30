@@ -29,26 +29,39 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
-    app.get("/regService/:email",async (req,res)=>{
-      console.log(req.params.email);
-      const query = {email: req.params.email}
+    app.get("/regService/:email", async (req, res) => {
+      const query = { email: req.params.email };
       const cursor = bookingCollection.find(query);
       const result = await cursor.toArray();
-      console.log(result);
       res.send(result);
-    })
+    });
+    app.get("/regServices", async (req, res) => {
+      const cursor = bookingCollection.find({});
+      const result = await cursor.toArray();
+      res.send(result);
+    });
     // POST API
-    app.post("/regService",async (req,res)=>{
+    app.post("/regService", async (req, res) => {
       const result = await bookingCollection.insertOne(req.body);
       res.json(result);
-    })
+    });
+    app.post("/services", async (req, res) => {
+      const result = await serviceCollection.insertOne(req.body);
+      res.json(result);
+    });
     // DELETE API
-    app.delete("/myBookings/:id",async (req,res)=>{
+    app.delete("/myBookings/:id", async (req, res) => {
       const id = req.params.id;
-      const query = {_id: ObjectId(id)}
+      const query = { _id: ObjectId(id) };
       const result = await bookingCollection.deleteOne(query);
       res.json(result);
-    })
+    });
+    app.delete("/regServices/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await bookingCollection.deleteOne(query);
+      res.json(result);
+    });
   } finally {
     //   await client.close();
   }
